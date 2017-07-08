@@ -3,29 +3,15 @@ package au.com.stepglobal;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
 import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.provider.ContactsContract;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import au.com.stepglobal.activity.TripConfirmationActivity;
 import au.com.stepglobal.activity.TripProgressActivity;
@@ -40,23 +26,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * A login screen that offers login via email/password.
+ * A login screen that offers login via UserId.
  */
 public class LoginActivity extends UARTBaseActivityView {
-
-    /**
-     * A dummy authentication store containing known user Id.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "test12", "user12"
-    };
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-//    private UserLoginTask mAuthTask = null;
-
-    // UI references.
 
     @BindView(R.id.login_activity_user_id)
     EditText userIdView;
@@ -72,7 +44,6 @@ public class LoginActivity extends UARTBaseActivityView {
     LinearLayout buttonContainer;
 
     private TripObject tripDetails;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +87,7 @@ public class LoginActivity extends UARTBaseActivityView {
 
     /**
      * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
+     * If there are form errors (invalid userid, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      * @param tripType
      */
@@ -129,7 +100,6 @@ public class LoginActivity extends UARTBaseActivityView {
         boolean cancel = false;
         View focusView = null;
 
-        // Check for a valid email address.
         if (TextUtils.isEmpty(userIdValue)) {
             userIdView.setError(getString(R.string.error_field_required));
             focusView = userIdView;
@@ -141,16 +111,10 @@ public class LoginActivity extends UARTBaseActivityView {
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             showProgress(true);
             callTripConfirmation(tripType);
-//            mAuthTask = new UserLoginTask(userIdValue);
-//            mAuthTask.execute((Void) null);
         }
     }
 
@@ -192,8 +156,6 @@ public class LoginActivity extends UARTBaseActivityView {
             });
 
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
             progressView.setVisibility(show ? View.VISIBLE : View.GONE);
             loginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
             buttonContainer.setVisibility(show ? View.GONE : View.VISIBLE);

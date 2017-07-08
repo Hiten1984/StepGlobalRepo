@@ -8,6 +8,5 @@ public interface IUARTBasePresenter {
     public void onCreate();
     public void sendMessage(String message);
     public void onStart();
-
     public void onDestroy();
 }

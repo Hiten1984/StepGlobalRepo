@@ -31,7 +31,7 @@ public class UARTDataConnector implements IUARTDataConnector {
     byte dataBit; /* 8:8bit, 7: 7bit */
     byte parity; /* 0: none, 1: odd, 2: even, 3: mark, 4: space */
     byte flowControl; /* 0:none, 1: CTS/RTS, 2:DTR/DSR, 3:XOFF/XON */
-    public Context global_context;
+    public Context globalContext;
     String uartSettings = "";
     boolean uart_configured = false;
     int portIndex = -1;
@@ -53,13 +53,11 @@ public class UARTDataConnector implements IUARTDataConnector {
     final byte XON = 0x11;    /* Resume transmission */
     final byte XOFF = 0x13;    /* Pause transmission */
 
-    IUARTDataConnector.IUARTDataReciever mDataReciever;
+    IUARTDataConnector.IUARTDataReceiver mDataReceiver;
 
-
-    public UARTDataConnector(IUARTDataReciever mDataReciever) {
-        this.mDataReciever = mDataReciever;
+    public UARTDataConnector(IUARTDataReceiver mDataReceiver) {
+        this.mDataReceiver = mDataReceiver;
     }
-
 
     @Override
     public void startReadThread(Context context) {
@@ -73,7 +71,6 @@ public class UARTDataConnector implements IUARTDataConnector {
         handlerThread.start();
     }
 
-
     @Override
     public void createDeviceList() {
         createDevices();
@@ -85,8 +82,8 @@ public class UARTDataConnector implements IUARTDataConnector {
     }
 
     public void createDevices() {
-        int tempDevCount = ftD2xx.createDeviceInfoList(global_context);
-
+        int tempDevCount = ftD2xx.createDeviceInfoList(globalContext);
+        Log.i(TT, "Device Count- "+tempDevCount);
         if (tempDevCount > 0) {
             if (DevCount != tempDevCount) {
                 DevCount = tempDevCount;
@@ -144,6 +141,7 @@ public class UARTDataConnector implements IUARTDataConnector {
     void setConfig(int baud, byte dataBits, byte stopBits, byte parity, byte flowControl) {
         // configure port
         // reset to UART mode for 232 devices
+        Log.i(TT, "Config Setting - "+baud + " , "+dataBits+ " , "+stopBits+ " , "+parity+ " , "+flowControl);
         ftDev.setBitMode((byte) 0, D2xxManager.FT_BITMODE_RESET);
 
         ftDev.setBaudRate(baud);
@@ -239,17 +237,13 @@ public class UARTDataConnector implements IUARTDataConnector {
                     e.printStackTrace();
                 }
 
-
                 status = readData(UI_READ_BUFFER_SIZE, readBuffer);
-
+                Log.i(TT, "Status returned - "+status);
                 if (0x00 == status) {
-
-
                     msg = mHandler.obtainMessage(UPDATE_TEXT_VIEW_CONTENT);
                     mHandler.sendMessage(msg);
                 }
             }
-
         }
     }
 
@@ -264,8 +258,8 @@ public class UARTDataConnector implements IUARTDataConnector {
         }
 
         public void run() {
-            byte[] usbdata = new byte[USB_DATA_BUFFER];
-            int readcount = 0;
+            byte[] usbData = new byte[USB_DATA_BUFFER];
+            int readCount = 0;
             int iWriteIndex = 0;
             bReadThreadEnable = true;
 
@@ -284,20 +278,20 @@ public class UARTDataConnector implements IUARTDataConnector {
                     }
                 }
 
-                readcount = ftDev.getQueueStatus();
+                readCount = ftDev.getQueueStatus();
                 //Log.e(">>@@","iavailable:" + iavailable);
-                if (readcount > 0) {
-                    if (readcount > USB_DATA_BUFFER) {
-                        readcount = USB_DATA_BUFFER;
+                if (readCount > 0) {
+                    if (readCount > USB_DATA_BUFFER) {
+                        readCount = USB_DATA_BUFFER;
                     }
-                    ftDev.read(usbdata, readcount);
+                    ftDev.read(usbData, readCount);
                     {
-                        totalReceiveDataBytes += readcount;
-                        //DLog.e(TT,"totalReceiveDataBytes:"+totalReceiveDataBytes);
+                        totalReceiveDataBytes += readCount;
+                        Log.i(TT,"totalReceiveDataBytes: " +totalReceiveDataBytes);
 
-                        //DLog.e(TT,"readcount:"+readcount);
-                        for (int count = 0; count < readcount; count++) {
-                            readDataBuffer[iWriteIndex] = usbdata[count];
+                        Log.i(TT, "readcount: " +readCount);
+                        for (int count = 0; count < readCount; count++) {
+                            readDataBuffer[iWriteIndex] = usbData[count];
                             iWriteIndex++;
                             iWriteIndex %= MAX_NUM_BYTES;
                         }
@@ -358,12 +352,10 @@ public class UARTDataConnector implements IUARTDataConnector {
                             readBufferToChar[i] = (char) readBuffer[i];
                         }
                         String data = String.copyValueOf(readBufferToChar, 0, actualNumBytes);
-                        mDataReciever.onDataRecieve(data);
+                        mDataReceiver.onDataReceive(data);
                     }
                     break;
             }
-
-
         }
     };
 

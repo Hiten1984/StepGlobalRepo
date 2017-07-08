@@ -27,4 +27,17 @@
         <item>Reason 5</item>
     </string-array>
 
+    <!-- Status Text -->
+    <string name="could_not_find_trip">Could not find trip</string>
+    <string name="invalid_driver_id">Invalid Driver ID</string>
+    <string name="invalid_key">Invalid Key</string>
+    <string name="invalid_api">API not recognised</string>
+    <string name="invalid_method">Method not recognised</string>
+    <string name="invalid_device_id">Invalid device</string>
+    <string name="invalid_trip_type">Trip type not valid, must be P or B</string>
+    <string name="invalid_trip_reason">Trip reason is not registered, in mTrax</string>
+    <string name="temporary_failure">Temporary error please try again shortly</string>
+    <string name="unknown_error">An Unknown Error occurred. The trip could not be saved</string>
+
+
 </resources>

@@ -33,6 +33,7 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:text="@string/btn_activity_login_private"
         android:textStyle="bold" />
@@ -43,6 +44,7 @@
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:text="@string/btn_activity_login_business"

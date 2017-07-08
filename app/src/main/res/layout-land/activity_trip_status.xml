@@ -75,8 +75,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:text="Trip Time Value"
-                android:textColor="@color/black"
+                android:text="00:00:00"
+                android:textColor="@color/red"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin_small"
                 android:textSize="16sp"
                 />

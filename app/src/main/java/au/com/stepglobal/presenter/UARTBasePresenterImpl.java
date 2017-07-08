@@ -3,13 +3,12 @@ package au.com.stepglobal.presenter;
 import au.com.stepglobal.activity.view.IUARTBaseActivityView;
 import au.com.stepglobal.connector.IUARTDataConnector;
 import au.com.stepglobal.connector.UARTDataConnector;
-import au.com.stepglobal.presenter.IUARTBasePresenter;
 
 /**
  * Created by hiten.bahri on 17/06/2017.
  */
 
-public class UARTBasePresenterImpl implements IUARTBasePresenter, IUARTDataConnector.IUARTDataReciever {
+public class UARTBasePresenterImpl implements IUARTBasePresenter, IUARTDataConnector.IUARTDataReceiver {
 
 
     IUARTBaseActivityView baseView;
@@ -41,7 +40,7 @@ public class UARTBasePresenterImpl implements IUARTBasePresenter, IUARTDataConne
     }
 
     @Override
-    public void onDataRecieve(String data) {
+    public void onDataReceive(String data) {
         baseView.onReceiveMessage(data);
     }
 }

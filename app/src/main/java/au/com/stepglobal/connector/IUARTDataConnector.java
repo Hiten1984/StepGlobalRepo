@@ -13,8 +13,8 @@ public interface IUARTDataConnector {
 
     void createDeviceList();
 
-    interface IUARTDataReciever {
-        void onDataRecieve(String data);
+    interface IUARTDataReceiver {
+        void onDataReceive(String data);
     }
 
     void sendData(String data);

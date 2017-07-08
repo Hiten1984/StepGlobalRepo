@@ -3,31 +3,20 @@ package au.com.stepglobal.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import au.com.stepglobal.global.TripType;
-import au.com.stepglobal.utils.StepGlobalConstants;
-
 /**
  * Created by hiten.bahri on 6/17/2017.
  */
 public class TripObject implements Parcelable {
 
-    String requestType = StepGlobalConstants.REQUEST_TYPE_TRIP;
     String responseType;
     String GUID;
     String userId;
-    TripType tripType;
+    String deviceId;
+    String tripType;
     String tripReason;
     long startTime;
     long stopTime;
     String status;
-
-    public String getRequestType() {
-        return requestType;
-    }
-
-    public void setRequestType(String requestType) {
-        this.requestType = requestType;
-    }
 
     public String getResponseType() {
         return responseType;
@@ -53,11 +42,19 @@ public class TripObject implements Parcelable {
         this.userId = userId;
     }
 
-    public TripType getTripType() {
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public String getTripType() {
         return tripType;
     }
 
-    public void setTripType(TripType tripType) {
+    public void setTripType(String tripType) {
         this.tripType = tripType;
     }
 
@@ -102,7 +99,9 @@ public class TripObject implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(GUID);
         dest.writeString(userId);
-        dest.writeParcelable(tripType, flags);
+        dest.writeString(deviceId);
+//        dest.writeParcelable(tripType, flags);
+        dest.writeString(tripType);
         dest.writeString(tripReason);
         dest.writeLong(startTime);
         dest.writeLong(stopTime);
@@ -115,7 +114,9 @@ public class TripObject implements Parcelable {
     protected TripObject(Parcel in) {
         GUID = in.readString();
         userId = in.readString();
-        tripType = in.readParcelable(TripType.class.getClassLoader());
+        deviceId = in.readString();
+        tripType = in.readString();
+//        tripType = in.readParcelable(TripType.class.getClassLoader());
         tripReason = in.readString();
         startTime = in.readLong();
         stopTime = in.readLong();

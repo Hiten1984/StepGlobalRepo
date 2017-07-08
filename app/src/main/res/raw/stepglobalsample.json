@@ -1,0 +1,22 @@
+{
+  "starttime": 1497796418209,
+  "stoptime": 1497966439209,
+  "reasoncodes": [
+    {
+      "reasoncode": "BM",
+      "reasonname": "Business Meeting"
+    },
+    {
+      "reasoncode": "SI",
+      "reasonname": "Site Inspection"
+    },
+    {
+      "reasoncode": "BO",
+      "reasonname": "Business To Office"
+    },
+    {
+      "reasoncode": "DR",
+      "reasonname": "To Depot"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ package au.com.stepglobal.utils;
 
 public class StepGlobalConstants {
     public static final int SERVER_RESPONSE_WAIT = 500;
-    public static final String REQUEST_TYPE_TIME = "TIME_SYNC";
-    public static final String REQUEST_TYPE_TRIP = "TRIP_UPDATE";
-    public static final String REQUEST_TYPE_REASON_CODE = "REASON_CODE";
+    public static final String REQUEST_TYPE_DEVICE_DETAIL = "DEVDETAIL?";
+    public static final String REQUEST_TYPE_TIME = "TIME?";
+    public static final String REQUEST_TYPE_ALERT = "ALERT";
 }
