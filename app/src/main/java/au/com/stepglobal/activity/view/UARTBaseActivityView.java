@@ -3,7 +3,9 @@ package au.com.stepglobal.activity.view;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import au.com.stepglobal.model.TripStatus;
 import au.com.stepglobal.presenter.IUARTBasePresenter;
 import au.com.stepglobal.presenter.UARTBasePresenterImpl;
 
@@ -34,10 +36,11 @@ public abstract class UARTBaseActivityView extends AppCompatActivity implements 
     }
 
     IUARTBasePresenter getPresenter() {
-        return new UARTBasePresenterImpl(this);
+        return  UARTBasePresenterImpl.getInstance(this);
     }
 
     public void sendMessage(String message) {
+        Log.i("UARTBaseActivityView", "message: "+ message);
         presenter.sendMessage(message);
     }
 

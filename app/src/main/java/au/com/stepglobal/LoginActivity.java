@@ -54,7 +54,6 @@ public class LoginActivity extends UARTBaseActivityView {
 
     @Override
     public void onReceiveMessage(String message) {
-
     }
 
     @Override

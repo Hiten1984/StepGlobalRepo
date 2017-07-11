@@ -6,7 +6,7 @@ import android.os.Parcelable;
 /**
  * Created by hiten.bahri on 6/17/2017.
  */
-public class TripObject implements Parcelable {
+public class TripObject extends BaseModel implements Parcelable {
 
     String responseType;
     String GUID;
@@ -14,8 +14,7 @@ public class TripObject implements Parcelable {
     String deviceId;
     String tripType;
     String tripReason;
-    long startTime;
-    long stopTime;
+    long timeEnd;
     String status;
 
     public String getResponseType() {
@@ -66,20 +65,12 @@ public class TripObject implements Parcelable {
         this.tripReason = tripReason;
     }
 
-    public long getStartTime() {
-        return startTime;
+    public long getTimeEnd() {
+        return timeEnd;
     }
 
-    public void setStartTime(long startTime) {
-        this.startTime = startTime;
-    }
-
-    public long getStopTime() {
-        return stopTime;
-    }
-
-    public void setStopTime(long stopTime) {
-        this.stopTime = stopTime;
+    public void setTimeEnd(long timeEnd) {
+        this.timeEnd = timeEnd;
     }
 
     public String getStatus() {
@@ -103,8 +94,8 @@ public class TripObject implements Parcelable {
 //        dest.writeParcelable(tripType, flags);
         dest.writeString(tripType);
         dest.writeString(tripReason);
-        dest.writeLong(startTime);
-        dest.writeLong(stopTime);
+        dest.writeLong(timestart);
+        dest.writeLong(timeEnd);
         dest.writeString(status);
     }
 
@@ -118,8 +109,8 @@ public class TripObject implements Parcelable {
         tripType = in.readString();
 //        tripType = in.readParcelable(TripType.class.getClassLoader());
         tripReason = in.readString();
-        startTime = in.readLong();
-        stopTime = in.readLong();
+        timestart = in.readLong();
+        timeEnd = in.readLong();
         status = in.readString();
     }
 
@@ -134,4 +125,5 @@ public class TripObject implements Parcelable {
             return new TripObject[size];
         }
     };
+
 }

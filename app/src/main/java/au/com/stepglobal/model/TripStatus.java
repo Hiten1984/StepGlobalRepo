@@ -14,6 +14,9 @@ public class TripStatus {
     public static final int DEVICE_STATUS_GETTING_TIME_FAIL = 6;
     public static final int DEVICE_STATUS_SAVING_TRIP = 7;
     public static final int DEVICE_STATUS_SAVING_TRIP_FAIL = 8;
+    public static final int DEVICE_STATUS_GETTING_ODOMETER = 9;
+    public static final int DEVICE_STATUS_SETTING_ODOMETER = 10;
+
     private int status = DEVICE_STATUS_NONE;
 
     private static TripStatus mInstance = new TripStatus();

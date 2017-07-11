@@ -20,6 +20,8 @@ public class StepGlobalPreferences {
     private static final String PROPERTY_TRIP_STATUS = "PROPERTY_TRIP_STATUS";
     private static final String PROPERTY_DEVICE_ID = "PROPERTY_DEVICE_ID";
 
+    private static final String DEVICE_MESSAGE_LIST = "DEVICE_MESSAGE_LIST";
+
     private static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(SHARED_PREFERENCES_NAME, Context.MODE_PRIVATE);
     }
@@ -32,8 +34,8 @@ public class StepGlobalPreferences {
         editor.putString(PROPERTY_DEVICE_ID, tripObject.getDeviceId());
         editor.putString(PROPERTY_TRIP_TYPE, tripObject.getTripType().toString());
         editor.putString(PROPERTY_TRIP_REASON, tripObject.getTripReason());
-        editor.putLong(PROPERTY_TRIP_START_TIME, tripObject.getStartTime());
-        editor.putLong(PROPERTY_TRIP_STOP_TIME, tripObject.getStopTime());
+        editor.putLong(PROPERTY_TRIP_START_TIME, tripObject.getTimestart());
+        editor.putLong(PROPERTY_TRIP_STOP_TIME, tripObject.getTimeEnd());
         editor.putString(PROPERTY_TRIP_STATUS, tripObject.getStatus());
         editor.commit();
     }
@@ -47,10 +49,21 @@ public class StepGlobalPreferences {
         tripObject.setTripType(prefs.getString(PROPERTY_TRIP_TYPE, null));
 //        tripObject.setTripType(getTripType(context));
         tripObject.setTripReason(prefs.getString(PROPERTY_TRIP_REASON, null));
-        tripObject.setStartTime(prefs.getLong(PROPERTY_TRIP_START_TIME, -1L));
-        tripObject.setStopTime(prefs.getLong(PROPERTY_TRIP_STOP_TIME, -1L));
+        tripObject.setTimestart(prefs.getLong(PROPERTY_TRIP_START_TIME, -1L));
+        tripObject.setTimeEnd(prefs.getLong(PROPERTY_TRIP_STOP_TIME, -1L));
         tripObject.setStatus(prefs.getString(PROPERTY_TRIP_STATUS, null));
         return tripObject;
+    }
+
+    public static void saveMessageList(Context context,String message) {
+        SharedPreferences prefs = getSharedPreferences(context);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putString(DEVICE_MESSAGE_LIST,message);
+    }
+
+    public static String getMessageList(Context context) {
+        SharedPreferences prefs = getSharedPreferences(context);
+        return prefs.getString(DEVICE_MESSAGE_LIST, null);
     }
 
 //    public static TripType getTripType(Context context) {

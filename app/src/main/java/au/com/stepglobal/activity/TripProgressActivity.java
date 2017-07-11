@@ -104,7 +104,7 @@ public class TripProgressActivity extends UARTBaseActivityView {
     private void setProgressState(TripObject tripObject) {
         tripReasonValue(tripObject.getTripType().equalsIgnoreCase("P"));
         tripTypeTextViewValue.setText(tripObject.getTripType().equalsIgnoreCase("P") ? "PRIVATE" : "BUSINESS");
-        final long startTime = tripObject.getStartTime();
+        final long startTime = tripObject.getTimestart();
         tripStartedValue.setText(StepGlobalUtils.getDateInFormat(startTime));
 
         final Handler handler = new Handler();
@@ -140,6 +140,7 @@ public class TripProgressActivity extends UARTBaseActivityView {
     TimeAndLocation timeAndLocation = new TimeAndLocation();
     Handler messageHandler = new Handler() {
         public void handleMessage(Message msg) {
+            Log.i("TPA - handleMessage", "msg: " + msg.what);
             switch (msg.what) {
                 case MESSAGE_GET_TIME:
                     timeAndLocation = (TimeAndLocation) msg.obj;
@@ -220,7 +221,7 @@ public class TripProgressActivity extends UARTBaseActivityView {
 
     public void endTrip(long time) {
         tripObject.setTripReason(StepGlobalUtils.getTripReasonCode(tripObject.getTripReason()));
-        tripObject.setStopTime(time);
+        tripObject.setTimeEnd(time);
         tripObject.setDeviceId(tripObject.getDeviceId());
         tripObject.setStatus("End");
         //Save Trip Object
@@ -230,6 +231,7 @@ public class TripProgressActivity extends UARTBaseActivityView {
         saveTripModel.setKey("“key123”");
         saveTripModel.setTripObject(tripObject);
         String saveTrip = GsonFactory.getGson().toJson(saveTripModel);
+        Log.i("TPA - endTrip", "saveTrip object : "+saveTrip);
         sendMessage(saveTrip);
         messageHandler.sendEmptyMessageDelayed(MESSAGE_SAVE_TRIP_TIMEOUT, WAIT_TIME);
     }

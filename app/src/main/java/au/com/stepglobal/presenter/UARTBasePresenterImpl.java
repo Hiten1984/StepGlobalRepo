@@ -1,8 +1,12 @@
 package au.com.stepglobal.presenter;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import au.com.stepglobal.activity.view.IUARTBaseActivityView;
 import au.com.stepglobal.connector.IUARTDataConnector;
 import au.com.stepglobal.connector.UARTDataConnector;
+import au.com.stepglobal.model.messagequeue.StepGlobalMessageQueue;
 
 /**
  * Created by hiten.bahri on 17/06/2017.
@@ -12,35 +16,43 @@ public class UARTBasePresenterImpl implements IUARTBasePresenter, IUARTDataConne
 
 
     IUARTBaseActivityView baseView;
-    IUARTDataConnector connector;
 
-    public UARTBasePresenterImpl(IUARTBaseActivityView view) {
-        baseView = view;
+    StepGlobalMessageQueue messageQueue;
+    private static UARTBasePresenterImpl mPresenterImpl = new UARTBasePresenterImpl();
+
+    private UARTBasePresenterImpl() {
+    }
+
+    public static UARTBasePresenterImpl getInstance(IUARTBaseActivityView view) {
+        mPresenterImpl.baseView = view;
+        return mPresenterImpl;
     }
 
     @Override
     public void onCreate() {
-        connector = new UARTDataConnector(this);
-        connector.startReadThread(baseView.getApplicationContext());
+        messageQueue = StepGlobalMessageQueue.getInstance(baseView.getApplicationContext(),this);
+        messageQueue.onCreate();
     }
 
     @Override
     public void sendMessage(String message) {
-        connector.sendData(message);
+        messageQueue.addMessageWait(message);
     }
 
     @Override
     public void onStart() {
-        connector.createDeviceList();
+        messageQueue.onStart();
     }
 
     @Override
     public void onDestroy() {
-        connector.disconnectFunction();
+        messageQueue.onDestroy();
     }
 
     @Override
     public void onDataReceive(String data) {
-        baseView.onReceiveMessage(data);
+        messageQueue.checkMessageWaitLocked(data);
+        if (baseView != null)
+            baseView.onReceiveMessage(data);
     }
 }

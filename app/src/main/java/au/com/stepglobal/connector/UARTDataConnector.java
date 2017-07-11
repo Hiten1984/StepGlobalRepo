@@ -1,5 +1,6 @@
 package au.com.stepglobal.connector;
 
+import android.app.AlarmManager;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
@@ -57,6 +58,7 @@ public class UARTDataConnector implements IUARTDataConnector {
 
     public UARTDataConnector(IUARTDataReceiver mDataReceiver) {
         this.mDataReceiver = mDataReceiver;
+
     }
 
     @Override
@@ -83,7 +85,7 @@ public class UARTDataConnector implements IUARTDataConnector {
 
     public void createDevices() {
         int tempDevCount = ftD2xx.createDeviceInfoList(globalContext);
-        Log.i(TT, "Device Count- "+tempDevCount);
+        Log.i(TT, "Device Count- " + tempDevCount);
         if (tempDevCount > 0) {
             if (DevCount != tempDevCount) {
                 DevCount = tempDevCount;
@@ -141,7 +143,7 @@ public class UARTDataConnector implements IUARTDataConnector {
     void setConfig(int baud, byte dataBits, byte stopBits, byte parity, byte flowControl) {
         // configure port
         // reset to UART mode for 232 devices
-        Log.i(TT, "Config Setting - "+baud + " , "+dataBits+ " , "+stopBits+ " , "+parity+ " , "+flowControl);
+        Log.i(TT, "Config Setting - " + baud + " , " + dataBits + " , " + stopBits + " , " + parity + " , " + flowControl);
         ftDev.setBitMode((byte) 0, D2xxManager.FT_BITMODE_RESET);
 
         ftDev.setBaudRate(baud);
@@ -238,7 +240,7 @@ public class UARTDataConnector implements IUARTDataConnector {
                 }
 
                 status = readData(UI_READ_BUFFER_SIZE, readBuffer);
-                Log.i(TT, "Status returned - "+status);
+                Log.i(TT, "Status returned - " + status);
                 if (0x00 == status) {
                     msg = mHandler.obtainMessage(UPDATE_TEXT_VIEW_CONTENT);
                     mHandler.sendMessage(msg);
@@ -263,7 +265,7 @@ public class UARTDataConnector implements IUARTDataConnector {
             int iWriteIndex = 0;
             bReadThreadEnable = true;
 
-            while (true == bReadThreadEnable) {
+            while (bReadThreadEnable) {
                 try {
                     Thread.sleep(10);
                 } catch (InterruptedException e) {
@@ -287,9 +289,9 @@ public class UARTDataConnector implements IUARTDataConnector {
                     ftDev.read(usbData, readCount);
                     {
                         totalReceiveDataBytes += readCount;
-                        Log.i(TT,"totalReceiveDataBytes: " +totalReceiveDataBytes);
+                        Log.i(TT, "totalReceiveDataBytes: " + totalReceiveDataBytes);
 
-                        Log.i(TT, "readcount: " +readCount);
+                        Log.i(TT, "readcount: " + readCount);
                         for (int count = 0; count < readCount; count++) {
                             readDataBuffer[iWriteIndex] = usbData[count];
                             iWriteIndex++;
@@ -352,7 +354,9 @@ public class UARTDataConnector implements IUARTDataConnector {
                             readBufferToChar[i] = (char) readBuffer[i];
                         }
                         String data = String.copyValueOf(readBufferToChar, 0, actualNumBytes);
-                        mDataReceiver.onDataReceive(data);
+                        if (mDataReceiver != null) {
+                            mDataReceiver.onDataReceive(data);
+                        }
                     }
                     break;
             }
@@ -362,7 +366,7 @@ public class UARTDataConnector implements IUARTDataConnector {
     @Override
     public void sendData(String data) {
         byte[] writeBuffer = {};
-        if(ftDev == null) {
+        if (ftDev == null) {
             return;
         }
         if (ftDev.isOpen() == false) {

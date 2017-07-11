@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="au.com.stepglobal.LoginActivity">
+    tools:context="au.com.stepglobal.activity.TripConfirmationActivity">
 
     <TextView
         android:id="@+id/trip_confirmation_activity_header"
@@ -86,6 +86,25 @@
                 android:gravity="left"
                 android:layout_marginBottom="@dimen/activity_horizontal_margin_medium"
                 />
+
+            <CheckBox
+                android:id="@+id/trip_confirmation_odo_update_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:text="ODO update"
+                android:layout_gravity="left"
+                android:paddingLeft="10dp"
+                />
+
+            <EditText
+                android:id="@+id/trip_confirmation_odo_update_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:inputType="numberDecimal"
+                android:enabled="false"
+                android:backgroundTint="@color/black"/>
 
         </LinearLayout>
 

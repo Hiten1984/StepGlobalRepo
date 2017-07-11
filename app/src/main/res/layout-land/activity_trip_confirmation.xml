@@ -45,7 +45,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/trip_confirmation_user_id_container"
         android:layout_margin="@dimen/activity_horizontal_margin_medium"
-        android:weightSum="2"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -79,6 +78,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/trip_confirmation_trip_reason_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -108,6 +108,32 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/trip_confirmation_trip_reason_container"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <CheckBox
+                android:id="@+id/trip_confirmation_odo_update_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ODO update"
+                android:textStyle="bold"
+                android:layout_gravity="left"
+                android:paddingLeft="10dp"
+                />
+
+            <EditText
+                android:id="@+id/trip_confirmation_odo_update_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:inputType="numberDecimal"
+                android:enabled="false"
+                android:backgroundTint="@color/black"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
